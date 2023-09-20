@@ -1,0 +1,41 @@
+# IntelliJ IDEA files
+.idea/
+*.iml
+
+# Maven files and directories
+target/
+*.jar
+*.war
+*.ear
+
+# Compiled classes
+bin/
+*.class
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# IDE-specific files
+*.ipr
+*.iws
+*.DS_Store
+/.idea/
+/out/
+
+# User-specific files
+*.hist
+*.histlock
+*.hprof
+*.java_pid*
+*.snap
+
+# Temporary files
+*.swp
+*~
+*.tmp
+
+# Configuration files
+config.yml
+plugin.yml
