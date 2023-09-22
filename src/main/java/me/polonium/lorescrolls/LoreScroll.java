@@ -1,5 +1,6 @@
 package me.polonium.lorescrolls;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -11,28 +12,16 @@ import java.util.List;
 
 public class LoreScroll {
     public static ItemStack createLoreScroll(Plugin plugin) {
-        FileConfiguration config = plugin.getConfig();
-        boolean firstLineRename = config.getBoolean("firstlinerename");
-
         ItemStack loreScroll = new ItemStack(Material.PAPER); // You can change the material to your preference
         ItemMeta meta = loreScroll.getItemMeta();
-        meta.setDisplayName("Lore Scroll");
+        meta.setDisplayName(ChatColor.AQUA + "Lore Scroll");
         meta.setCustomModelData(696969);
-
-        // Lore explaining how to use the scroll
         List<String> lore = new ArrayList<>();
-        lore.add("Right-click an item while holding this item in your offhand to set its lore");
-        lore.add("The item must be in your hand when using the scroll.");
-        lore.add("To edit the lore of the scroll, use /loreset <message> <line>, to reset the lore /lorereset");
-        lore.add("whilst the scroll is in your main hand");
-
-        // Check the config for firstlinerename and add the bonus line if it is true
-        if (firstLineRename) {
-            lore.add(0, "The first line of the lore will dictate the item's name on apply");
-        }
-
+        lore.add(ChatColor.GREEN + "Right-click an item while holding this item in your offhand to set its lore");
+        lore.add(ChatColor.GREEN + "The item must be in your hand when using the scroll.");
+        lore.add(ChatColor.GREEN + "To edit the lore of the scroll, use /setlore <message> <line>, to reset the lore /resetlore");
+        lore.add(ChatColor.GREEN + "whilst the scroll is in your main hand");
         meta.setLore(lore);
-
         loreScroll.setItemMeta(meta);
         return loreScroll;
     }

@@ -20,7 +20,7 @@ public class ConfirmResetCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can use this command.");
+            sender.sendMessage(ChatColor.RED + "Only players can use this command.");
             return true;
         }
 
@@ -29,15 +29,18 @@ public class ConfirmResetCommand implements CommandExecutor {
 
         // Check if the player has an item in their main hand
         if (itemInHand == null || itemInHand.getType().isAir()) {
-            player.sendMessage("You must hold an item in your main hand to reset its lore.");
+            player.sendMessage(ChatColor.RED + "You must hold an item in your main hand to reset its lore.");
             return true;
+        }
+        if (!player.hasPermission("lorescrolls.resetlore")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to execute this command");
         }
 
         ItemMeta itemMeta = itemInHand.getItemMeta();
 
         // Check if the item has lore
         if (itemMeta == null || !itemMeta.hasLore()) {
-            player.sendMessage("The item in your main hand does not have any lore to reset.");
+            player.sendMessage(ChatColor.RED + "The item in your main hand does not have any lore to reset.");
             return true;
         }
 
@@ -53,7 +56,7 @@ public class ConfirmResetCommand implements CommandExecutor {
         itemMeta.setLore(null);
         itemInHand.setItemMeta(itemMeta);
 
-        player.sendMessage("Lore reset successfully.");
+        player.sendMessage(ChatColor.AQUA + "Lore reset successfully.");
 
         return true;
     }

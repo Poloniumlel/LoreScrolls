@@ -2,6 +2,7 @@ package me.polonium.lorescrolls;
 
 import me.polonium.lorescrolls.Commands.ConfirmResetCommand;
 import me.polonium.lorescrolls.Commands.GiveLoreScroll;
+import me.polonium.lorescrolls.Commands.RenameCommand;
 import me.polonium.lorescrolls.Commands.SetLoreCommand;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -27,8 +28,9 @@ public class LoreScrolls extends JavaPlugin {
         pluginManager.registerEvents(new LoreScrollListener(this), this);
 
         getCommand("setlore").setExecutor(new SetLoreCommand());
-        getCommand("lorereset").setExecutor(new ConfirmResetCommand(this));
+        getCommand("resetlore").setExecutor(new ConfirmResetCommand(this));
         getCommand("givelorescroll").setExecutor(new GiveLoreScroll(this));
+        getCommand("rename").setExecutor(new RenameCommand());
 
         setupCraftingRecipe();
     }
@@ -68,15 +70,9 @@ public class LoreScrolls extends JavaPlugin {
                     recipe.setIngredient(key, material);
                 }
             }
-
-            getServer().addRecipe(recipe);
+            if (config.getBoolean("recipeenabled")) {
+                getServer().addRecipe(recipe);
+            }
         }
-    }
-
-
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
     }
 }

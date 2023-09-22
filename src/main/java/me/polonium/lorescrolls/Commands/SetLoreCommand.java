@@ -1,5 +1,6 @@
 package me.polonium.lorescrolls.Commands;
 
+import me.polonium.lorescrolls.ColorFormatter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,30 +22,29 @@ public class SetLoreCommand implements CommandExecutor {
             sender.sendMessage("Only players can use this command.");
             return true;
         }
-
         Player player = (Player) sender;
+        if (!player.hasPermission("lorescrolls.setlore")) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
+            return true;
+        }
 
         if (args.length < 2) {
-            player.sendMessage("Usage: /setlore <message> <line>");
+            player.sendMessage(ChatColor.RED +"Usage: /setlore <message> <line>");
             return true;
         }
 
         ItemStack itemInHand = player.getInventory().getItemInMainHand();
-
-        // Check if the player has an item in their main hand
         if (itemInHand == null || itemInHand.getType().isAir()) {
-            player.sendMessage("This item isn't a lore scroll! This command only works for lore scrolls.");
+            player.sendMessage(ChatColor.RED +"Please put a lore scroll into your main hand to use this command.");
             return true;
         }
 
         if (!itemInHand.getItemMeta().hasCustomModelData()) {
-            player.sendMessage("This item isn't a lore scroll! This command only works for lore scrolls.");
+            player.sendMessage(ChatColor.RED +"This item isn't a lore scroll! This command only works for lore scrolls.");
             return true;
         }
-
-        // Check if the item has the custom model data of "696969"
         if (itemInHand.getItemMeta().getCustomModelData() != 696969) {
-            player.sendMessage("This item isn't a lore scroll! This command only works for lore scrolls.");
+            player.sendMessage(ChatColor.RED +"This item isn't a lore scroll! This command only works for lore scrolls.");
             return true;
         }
 
@@ -52,45 +52,37 @@ public class SetLoreCommand implements CommandExecutor {
         try {
             loreLine = Integer.parseInt(args[args.length - 1]);
         } catch (NumberFormatException e) {
-            player.sendMessage("Invalid lore line number.");
+            player.sendMessage(ChatColor.RED +"Invalid lore line number.");
             return true;
         }
 
         if (loreLine <= 0) {
-            player.sendMessage("Lore line number must be greater than 0.");
+            player.sendMessage(ChatColor.RED +"Lore line number must be greater than 0.");
             return true;
         }
 
         String message = String.join(" ", args);
         message = message.substring(0, message.length() - String.valueOf(loreLine).length()).trim();
-
-        // Apply color formatting
         message = format(message);
 
         ItemMeta itemMeta = itemInHand.getItemMeta();
         if (itemMeta == null) {
-            player.sendMessage("Failed to set lore. Item meta is null.");
+            player.sendMessage(ChatColor.RED +"Failed to set lore. Item meta is null.");
             return true;
         }
-
-        // Get the item's current lore or create an empty list if it doesn't exist
         List<String> lore = itemMeta.getLore();
         if (lore == null) {
             lore = new ArrayList<>();
         }
-
-        // Make sure there are enough lines in the lore list
         while (lore.size() < loreLine) {
             lore.add("");
         }
-
-        // Set the specified lore line
         lore.set(loreLine - 1, message);
         itemMeta.setLore(lore);
 
         itemInHand.setItemMeta(itemMeta);
 
-        player.sendMessage("Lore set successfully.");
+        player.sendMessage(ChatColor.AQUA +"Lore set successfully.");
 
         return true;
     }
@@ -105,7 +97,6 @@ public class SetLoreCommand implements CommandExecutor {
             msg = msg.replace(color, ChatColor.of(color) + "");
             matcher = pattern.matcher(msg);
         }
-
         return msg;
     }
 }
