@@ -30,7 +30,7 @@ public class LoreScrolls extends JavaPlugin {
         getCommand("setlore").setExecutor(new SetLoreCommand());
         getCommand("resetlore").setExecutor(new ConfirmResetCommand(this));
         getCommand("givelorescroll").setExecutor(new GiveLoreScroll(this));
-        getCommand("rename").setExecutor(new RenameCommand());
+        getCommand("rename").setExecutor(new RenameCommand(this));
 
         setupCraftingRecipe();
     }

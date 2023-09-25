@@ -1,6 +1,5 @@
 package me.polonium.lorescrolls.Commands;
 
-import me.polonium.lorescrolls.ColorFormatter;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
